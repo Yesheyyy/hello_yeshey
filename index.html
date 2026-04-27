@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta nam
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yeshey Wangchuk — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #00ff9f;
+    --accent2: #ff6b35;
+    --accent3: #a855f7;
+    --accent4: #38bdf8;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --pixel: 4px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* PIXEL GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,159,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,159,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* SCANLINE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* PIXEL CORNER UTILITY */
+  .pixel-box {
+    image-rendering: pixelated;
+    border: var(--pixel) solid var(--border);
+    box-shadow:
+      var(--pixel) var(--pixel) 0 0 var(--border),
+      calc(var(--pixel) * -1) calc(var(--pixel) * -1) 0 0 rgba(0,0,0,0.5);
+    position: relative;
+  }
+  .pixel-box::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    border: 2px solid rgba(0,255,159,0.1);
+    pointer-events: none;
+  }
+
+  /* ========================
+     NAV
+  ======================== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    background: rgba(10,10,15,0.95);
+    border-bottom: 2px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .nav-logo span { color: var(--accent2); }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 18px;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ========================
+     HERO
+  ======================== */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Floating pixel particles */
+  .particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    opacity: 0;
+    animation: floatPixel linear infinite;
+    image-rendering: pixelated;
+  }
+
+  @keyframes floatPixel {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+  }
+
+  .hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-sprite {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+
+  /* Pixel avatar art */
+  .pixel-avatar {
+    width: 120px;
+    height: 120px;
+    image-rendering: pixelated;
+    border: 4px solid var(--accent);
+    box-shadow:
+      0 0 0 4px var(--bg),
+      0 0 0 8px var(--border),
+      0 0 30px rgba(0,255,159,0.3),
+      0 0 60px rgba(0,255,159,0.1);
+    animation: avatarFloat 3s ease-in-out infinite;
+    background: var(--card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+  }
+
+  @keyframes avatarFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .hero-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .hero-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(18px, 4vw, 32px);
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    text-shadow:
+      4px 4px 0 var(--accent3),
+      -2px -2px 0 rgba(0,255,159,0.2);
+  }
+
+  .hero-name .highlight {
+    color: var(--accent);
+    text-shadow:
+      4px 4px 0 rgba(0,255,159,0.3),
+      0 0 20px rgba(0,255,159,0.5);
+  }
+
+  .hero-title {
+    font-size: 28px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .hero-title span {
+    color: var(--accent2);
+    animation: cycleText 4s step-end infinite;
+  }
+
+  @keyframes cycleText {
+    0%, 33% { content: 'English Graduate'; }
+  }
+
+  .hero-desc {
+    font-size: 20px;
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-pixel {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    padding: 14px 24px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    position: relative;
+    transition: transform 0.1s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-pixel:active { transform: translate(4px, 4px); }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    box-shadow: 4px 4px 0 #007a4d, 8px 8px 0 rgba(0,122,77,0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #007a4d, 12px 12px 0 rgba(0,122,77,0.2);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent3);
+    border: 3px solid var(--accent3);
+    box-shadow: 4px 4px 0 #5b21b6;
+  }
+
+  .btn-secondary:hover {
+    transform: translate(-2px, -2px);
+    background: rgba(168,85,247,0.1);
+    box-shadow: 6px 6px 0 #5b21b6;
+  }
+
+  /* STATUS BAR */
+  .status-bar {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-bar {
+    width: 120px;
+    height: 12px;
+    background: var(--border);
+    border: 2px solid var(--border);
+    position: relative;
+    image-rendering: pixelated;
+  }
+
+  .stat-fill {
+    height: 100%;
+    background: var(--accent);
+    animation: fillBar 2s ease-out forwards;
+    transform-origin: left;
+  }
+
+  @keyframes fillBar {
+    from { width: 0; }
+  }
+
+  .stat-fill.orange { background: var(--accent2); }
+  .stat-fill.purple { background: var(--accent3); }
+  .stat-fill.blue { background: var(--accent4); }
+
+  .stat-val {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--text);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* ========================
+     SECTIONS
+  ======================== */
+  section {
+    padding: 100px 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    opacity: 0.5;
+  }
+
+  .section-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(12px, 2vw, 18px);
+    color: var(--text);
+    letter-spacing: 2px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ========================
+     ABOUT
+  ======================== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 700px) {
+    .about-grid { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+  }
+
+  .about-card {
+    background: var(--card);
+    padding: 2rem;
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+  }
+
+  .about-card h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+  }
+
+  .about-card p { color: #94a3b8; font-size: 20px; line-height: 1.8; }
+
+  .info-list { list-style: none; }
+  .info-list li {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 19px;
+    color: #94a3b8;
+  }
+  .info-list li:last-child { border-bottom: none; }
+  .info-list .key {
+    color: var(--accent2);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    min-width: 80px;
+    align-self: center;
+  }
+
+  /* ========================
+     EDUCATION
+  ======================== */
+  .edu-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .edu-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: repeating-linear-gradient(
+      180deg,
+      var(--accent) 0, var(--accent) 6px,
+      transparent 6px, transparent 12px
+    );
+  }
+
+  .edu-item {
+    background: var(--card);
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .edu-item:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--accent);
+    border-color: var(--accent);
+  }
+
+  .edu-item::before {
+    content: '▶';
+    position: absolute;
+    left: -2.4rem;
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  .edu-year {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+  }
+
+  .edu-degree {
+    font-size: 24px;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+  }
+
+  .edu-school {
+    font-size: 18px;
+    color: var(--muted);
+  }
+
+  .edu-score {
+    display: inline-block;
+    margin-top: 0.5rem;
+    background: rgba(0,255,159,0.1);
+    border: 1px solid var(--accent);
+    padding: 2px 10px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--accent);
+  }
+
+  /* ========================
+     SKILLS
+  ======================== */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    padding: 1.5rem;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+
+  .skill-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 rgba(0,255,159,0.3);
+    border-color: var(--accent);
+  }
+
+  .skill-card:hover::after { width: 100%; }
+
+  .skill-icon {
+    font-size: 28px;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .skill-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  .skill-desc {
+    font-size: 17px;
+    color: var(--muted);
+  }
+
+  /* ========================
+     ACHIEVEMENTS
+  ======================== */
+  .achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .achievement-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    background: var(--card);
+    border: 2px solid var(--border);
+    padding: 1.2rem 1.5rem;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: all 0.2s;
+  }
+
+  .achievement-item:hover {
+    transform: translateX(6px);
+    border-color: var(--accent2);
+    box-shadow: 4px 4px 0 var(--accent2);
+  }
+
+  .achievement-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .achievement-year {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--accent2);
+    margin-bottom: 4px;
+  }
+
+  .achievement-text {
+    font-size: 19px;
+    color: #94a3b8;
+    line-height: 1.6;
+  }
+
+  /* ========================
+     LANGUAGES
+  ======================== */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .lang-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 4px 4px 0 var(--border);
+    transition: all 0.2s;
+  }
+
+  .lang-card:hover {
+    transform: translate(-3px, -3px);
+    border-color: var(--accent3);
+    box-shadow: 7px 7px 0 var(--accent3);
+  }
+
+  .lang-flag { font-size: 36px; display: block; margin-bottom: 0.5rem; }
+
+  .lang-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--text);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .lang-level {
+    font-size: 17px;
+    color: var(--muted);
+  }
+
+  /* ========================
+     INTERESTS
+  ======================== */
+  .interests-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .interest-tag {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 10px 16px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    letter-spacing: 1px;
+    cursor: default;
+    transition: all 0.15s;
+    box-shadow: 3px 3px 0 var(--border);
+  }
+
+  .interest-tag:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 3px 3px 0 var(--accent);
+    transform: translate(-2px,-2px);
+  }
+
+  /* ========================
+     CONTACT
+  ======================== */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .contact-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .contact-card:hover {
+    transform: translate(-3px,-3px);
+    box-shadow: 7px 7px 0 var(--accent4);
+    border-color: var(--accent4);
+  }
+
+  .contact-card .c-icon { font-size: 32px; }
+  .contact-card .c-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: var(--accent4);
+    letter-spacing: 1px;
+  }
+  .contact-card .c-val { font-size: 19px; color: #94a3b8; }
+
+  /* ========================
+     FOOTER
+  ======================== */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 2px solid var(--border);
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer-logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    display: block;
+    text-shadow: 0 0 10px rgba(0,255,159,0.4);
+  }
+
+  footer p {
+    font-size: 17px;
+    color: var(--muted);
+  }
+
+  /* PIXEL CORNER DECORATIONS */
+  .corner-deco {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: var(--accent);
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .corner-deco.tl { top: 10px; left: 10px; border-width: 3px 0 0 3px; }
+  .corner-deco.tr { top: 10px; right: 10px; border-width: 3px 3px 0 0; }
+  .corner-deco.bl { bottom: 10px; left: 10px; border-width: 0 0 3px 3px; }
+  .corner-deco.br { bottom: 10px; right: 10px; border-width: 0 3px 3px 0; }
+
+  /* CURSOR GLOW */
+  .cursor-glow {
+    position: fixed;
+    width: 20px; height: 20px;
+    background: rgba(0,255,159,0.15);
+    border: 2px solid rgba(0,255,159,0.4);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s;
+    image-rendering: pixelated;
+  }
+
+  /* SCROLL ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* GLITCH EFFECT on name */
+  @keyframes glitch {
+    0%, 90%, 100% { clip-path: none; transform: none; }
+    91% { clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); transform: translate(-3px, 0); color: var(--accent2); }
+    93% { clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%); transform: translate(3px, 0); color: var(--accent3); }
+    95% { clip-path: none; transform: none; }
+  }
+
+  .hero-name {
+    animation: glitch 6s step-end infinite;
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor-glow" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YW<span>.</span>EXE</div>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#education">EDU</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#achievements">WINS</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%;padding-left:2rem;padding-right:2rem;">
+  <div class="particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-sprite">
+      <div class="pixel-avatar">🧑‍💻</div>
+    </div>
+    <div class="hero-tag">▶ PLAYER 1 ◀</div>
+    <h1 class="hero-name">YESHEY<br><span class="highlight">WANGCHUK</span></h1>
+    <p class="hero-title">✦ English Graduate &amp; Digital Creator ✦</p>
+    <p class="hero-desc">Reliable, results-driven, and adaptable. Skilled in communication, digital tools, and leadership. Based in Phuentsholing, Bhutan.</p>
+    <div class="hero-btns">
+      <a href="#about" class="btn-pixel btn-primary">▶ EXPLORE</a>
+      <a href="#contact" class="btn-pixel btn-secondary">📡 CONTACT</a>
+    </div>
+    <div class="status-bar">
+      <div class="stat-item">
+        <span class="stat-label">ENGLISH</span>
+        <div class="stat-bar"><div class="stat-fill" style="width:95%"></div></div>
+        <span class="stat-val">95/100</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">IT SKILLS</span>
+        <div class="stat-bar"><div class="stat-fill orange" style="width:80%"></div></div>
+        <span class="stat-val">80/100</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">LEADERSHIP</span>
+        <div class="stat-bar"><div class="stat-fill purple" style="width:88%"></div></div>
+        <span class="stat-val">88/100</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">TEAMWORK</span>
+        <div class="stat-bar"><div class="stat-fill blue" style="width:90%"></div></div>
+        <span class="stat-val">90/100</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">PLAYER PROFILE</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid fade-in">
+    <div class="about-card">
+      <div class="corner-deco tl"></div><div class="corner-deco tr"></div>
+      <div class="corner-deco bl"></div><div class="corner-deco br"></div>
+      <h3>// BIO.TXT</h3>
+      <p>Reliable and results-driven English graduate with a proven record of academic excellence, leadership, and dedication. Skilled at taking initiative, learning quickly, and working effectively both independently and in a team. Committed to delivering high-quality results and making a positive contribution to any workplace.</p>
+    </div>
+    <div class="about-card">
+      <div class="corner-deco tl"></div><div class="corner-deco tr"></div>
+      <div class="corner-deco bl"></div><div class="corner-deco br"></div>
+      <h3>// STATS.DAT</h3>
+      <ul class="info-list">
+        <li><span class="key">NAME</span> Yeshey Wangchuk</li>
+        <li><span class="key">DOB</span> 15 October 2002</li>
+        <li><span class="key">NATION</span> Bhutanese 🇧🇹</li>
+        <li><span class="key">BASE</span> Phuentsholing</li>
+        <li><span class="key">STATUS</span> Single</li>
+        <li><span class="key">EMAIL</span> Punkdawa489@gmail.com</li>
+        <li><span class="key">PHONE</span> +975 17864637</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">LEARNING TREE</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-timeline fade-in">
+    <div class="edu-item">
+      <div class="edu-year">2022 — 2025</div>
+      <div class="edu-degree">Bachelor of Arts in English</div>
+      <div class="edu-school">Norbuling Rigter College</div>
+      <span class="edu-score">GPA: 66.5%</span>
+    </div>
+    <div class="edu-item">
+      <div class="edu-year">2020 — 2022</div>
+      <div class="edu-degree">Class XII</div>
+      <div class="edu-school">Peljorling Higher Secondary School</div>
+      <span class="edu-score">65%</span>
+    </div>
+    <div class="edu-item">
+      <div class="edu-year">2019</div>
+      <div class="edu-degree">Class X</div>
+      <div class="edu-school">Yoeseltse Middle Secondary School</div>
+      <span class="edu-score">69%</span>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">ABILITY SET</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid fade-in">
+    <div class="skill-card">
+      <span class="skill-icon">📖</span>
+      <div class="skill-name">ENGLISH EXPERTISE</div>
+      <div class="skill-desc">BA graduate with deep knowledge in language studies, phonetics &amp; phonology</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🎤</span>
+      <div class="skill-name">PUBLIC SPEAKING</div>
+      <div class="skill-desc">Strong presentation and oratory skills honed through academic &amp; community events</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">💻</span>
+      <div class="skill-name">IT &amp; DIGITAL TOOLS</div>
+      <div class="skill-desc">Microsoft Office, Canva, Google Workspace — Docs, Sheets, Slides</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">✍️</span>
+      <div class="skill-name">ACADEMIC WRITING</div>
+      <div class="skill-desc">Expert in academic writing, editing, and content creation</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🤝</span>
+      <div class="skill-name">TEAMWORK</div>
+      <div class="skill-desc">Proven interpersonal skills and collaborative mindset across diverse groups</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🗓️</span>
+      <div class="skill-name">TIME MANAGEMENT</div>
+      <div class="skill-desc">Experienced in event planning, coordination, and meeting deadlines</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">💡</span>
+      <div class="skill-name">CODING BASICS</div>
+      <div class="skill-desc">Completed Advanced Level of the Learn2Code Program (2025)</div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🌐</span>
+      <div class="skill-name">DIGITAL LITERACY</div>
+      <div class="skill-desc">IC3 certified — Digital Citizenship, Content Creation, Info Security</div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">ACHIEVEMENT LOG</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="achievements-list fade-in">
+    <div class="achievement-item">
+      <div class="achievement-icon">🏆</div>
+      <div>
+        <div class="achievement-year">2022 — 2025</div>
+        <div class="achievement-text">Recipient of 3 Academic Excellence Honours, 4 certificates, and one medal during college</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">🥉</div>
+      <div>
+        <div class="achievement-year">2023</div>
+        <div class="achievement-text">Certificate of Third Position for the 2nd semester — Subject Topper in English Phonetics &amp; Syntax and IT Skills</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">🥇</div>
+      <div>
+        <div class="achievement-year">2021</div>
+        <div class="achievement-text">Certificate of First Place (Winner) — "Let's Compose and Sing" competition</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">🎬</div>
+      <div>
+        <div class="achievement-year">2021</div>
+        <div class="achievement-text">Certificate of Participation in Video Making Competition — Department of Culture, Ministry of Home &amp; Culture Affairs</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">🏛️</div>
+      <div>
+        <div class="achievement-year">2016 — 2020</div>
+        <div class="achievement-text">Active member of Phuentsholing Youth Friendly Integrated Service Centre (PYFISC) for five years</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">🎭</div>
+      <div>
+        <div class="achievement-year">2022 — 2025</div>
+        <div class="achievement-text">Certificate of Participation in the Literary &amp; Drama Society</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">📜</div>
+      <div>
+        <div class="achievement-year">2025</div>
+        <div class="achievement-text">IC3 Digital Literacy Certification — Technology Basics, Digital Citizenship, Information Management &amp; Safety</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">💻</div>
+      <div>
+        <div class="achievement-year">2025</div>
+        <div class="achievement-text">Certificate of Completion — Advanced Level of the Learn2Code Program</div>
+      </div>
+    </div>
+    <div class="achievement-item">
+      <div class="achievement-icon">✈️</div>
+      <div>
+        <div class="achievement-year">2025</div>
+        <div class="achievement-text">Certificate of Participation — Digital Skilling Program (Travel Agents and Tour Guides)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section id="languages">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">LANGUAGE PACK</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="lang-grid fade-in">
+    <div class="lang-card">
+      <span class="lang-flag">🇬🇧</span>
+      <span class="lang-name">ENGLISH</span>
+      <span class="lang-level">Speaking &amp; Writing</span>
+    </div>
+    <div class="lang-card">
+      <span class="lang-flag">🇧🇹</span>
+      <span class="lang-name">DZONGKHA</span>
+      <span class="lang-level">Speaking &amp; Writing</span>
+    </div>
+    <div class="lang-card">
+      <span class="lang-flag">🗣️</span>
+      <span class="lang-name">SHARCHOP</span>
+      <span class="lang-level">Speaking</span>
+    </div>
+    <div class="lang-card">
+      <span class="lang-flag">🇳🇵</span>
+      <span class="lang-name">NEPALI</span>
+      <span class="lang-level">Speaking</span>
+    </div>
+    <div class="lang-card">
+      <span class="lang-flag">🇮🇳</span>
+      <span class="lang-name">HINDI</span>
+      <span class="lang-level">Speaking</span>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section id="interests">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">SIDE QUESTS</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="interests-wrap fade-in">
+    <span class="interest-tag">📸 PHOTOGRAPHY</span>
+    <span class="interest-tag">✈️ TRAVELING</span>
+    <span class="interest-tag">🏀 BASKETBALL</span>
+    <span class="interest-tag">🎮 INDOOR SPORTS</span>
+    <span class="interest-tag">🎵 SINGING</span>
+    <span class="interest-tag">🎭 PERFORMING</span>
+    <span class="interest-tag">💻 TECH &amp; DIGITAL MEDIA</span>
+    <span class="interest-tag">📚 LITERATURE</span>
+    <span class="interest-tag">✍️ CREATIVE WRITING</span>
+    <span class="interest-tag">🤝 VOLUNTEERING</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">SEND MESSAGE</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid fade-in">
+    <a href="mailto:Punkdawa489@gmail.com" class="contact-card">
+      <span class="c-icon">📧</span>
+      <span class="c-label">EMAIL</span>
+      <span class="c-val">Punkdawa489@gmail.com</span>
+    </a>
+    <a href="tel:+97517864637" class="contact-card">
+      <span class="c-icon">📱</span>
+      <span class="c-label">PHONE</span>
+      <span class="c-val">+975 17864637</span>
+    </a>
+    <div class="contact-card">
+      <span class="c-icon">📍</span>
+      <span class="c-label">LOCATION</span>
+      <span class="c-val">Phuentsholing, Bhutan 🇧🇹</span>
+    </div>
+    <div class="contact-card">
+      <span class="c-icon">👩‍💼</span>
+      <span class="c-label">REFERENCE</span>
+      <span class="c-val">Miss Pema Wangmo — NRC</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">YESHEY_WANGCHUK.EXE</span>
+  <p>© 2025 — INSERT COIN TO CONTINUE</p>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Particles
+  const container = document.getElementById('particles');
+  const colors = ['#00ff9f','#ff6b35','#a855f7','#38bdf8','#fbbf24'];
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (6 + Math.random() * 10) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width = p.style.height = (4 + Math.floor(Math.random() * 3) * 2) + 'px';
+    container.appendChild(p);
+  }
+
+  // Scroll fade-in
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+e="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yeshey Wangchuk | Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <h1 class="pixel-title">YESHEY WANGCHUK</h1>
+    <p class="tagline">Reliable, results-driven English graduate with a passion for creativity and technology.</p>
+    <nav>
+      <button class="nav-btn">About</button>
+      <button class="nav-btn">Education</button>
+      <button class="nav-btn">Skills</button>
+      <button class="nav-btn">Contact</button>
+    </nav>
+  </header>
+
+  <section id="about" class="section">
+    <h2>About Me</h2>
+    <p>Hello! I'm Yeshey Wangchuk, an English graduate with a passion for writing, technology, and continuous learning.</p>
+  </section>
+
+  <section id="education" class="section">
+    <h2>Education</h2>
+    <ul>
+      <li>Bachelor of Arts in English – Norbuling Rigter College (2025)</li>
+      <li>Class 12 – Peljorling Higher Secondary School (2022)</li>
+      <li>Class 10 – Yoeseltse Middle Secondary School (2019)</li>
+    </ul>
+  </section>
+
+  <section id="skills" class="section">
+    <h2>Skills</h2>
+    <div class="skill-bar"><span>Microsoft Office</span><div class="bar-fill"></div></div>
+    <div class="skill-bar"><span>Canva</span><div class="bar-fill"></div></div>
+    <div class="skill-bar"><span>Google Workspace</span><div class="bar-fill"></div></div>
+    <div class="skill-bar"><span>Creative Writing</span><div class="bar-fill"></div></div>
+  </section>
+
+  <section id="contact" class="section">
+    <h2>Get in Touch</h2>
+    <form>
+      <input type="text" placeholder="Name" required />
+      <input type="email" placeholder="Email" required />
+      <textarea placeholder="Message"></textarea>
+      <button type="submit">SEND</button>
+    </form>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

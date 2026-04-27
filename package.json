@@ -1,0 +1,21 @@
+{
+  "name": "hello_yeshey",
+  "version": "1.0.0",
+  "description": "Name: yeshey\r Hobby: idk\r Talent: none\r blah blah blah blah",
+  "main": "first.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yesheyyy/hello_yeshey.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Yesheyyy/hello_yeshey/issues"
+  },
+  "homepage": "https://github.com/Yesheyyy/hello_yeshey#readme"
+}
